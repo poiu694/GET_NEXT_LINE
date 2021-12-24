@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:36:18 by sangmlee          #+#    #+#             */
-/*   Updated: 2021/12/23 12:56:50 by sangmlee         ###   ########.fr       */
+/*   Updated: 2021/12/23 16:37:48 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_next_line(int fd)
 	if (detect_init_error(fd))
 		return (NULL);
 	read_buf = NULL;
-	if (cache_storage[fd])
+	if (cache_storage[fd] == NULL)
 		cache_storage[fd] = ft_strdup("");
 	if (cache_storage[fd])
 		read_buf = process_existing_line(fd, &cache_storage);
