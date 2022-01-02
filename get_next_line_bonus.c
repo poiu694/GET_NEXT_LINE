@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:36:18 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/01 19:53:52 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/02 20:51:20 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_read_new_line(int fd, char *cache)
 		temp = cache;
 		cache = ft_strjoin(cache, read_buf);
 		free(temp);
-		if (*find_newline_index(cache) == '\n')
+		if (*ft_find_newline_index(cache) == '\n')
 			break ;
 		read_size = read(fd, read_buf, BUFFER_SIZE);
 	}
@@ -43,9 +43,9 @@ static char	*ft_get_line_before_newline(char *buf)
 	char	*line;
 	char	*newline_index;
 
-	if (*buf == '\0')
+	if (!buf)
 		return (NULL);
-	newline_index = find_newline_index(buf);
+	newline_index = ft_find_newline_index(buf);
 	if (*newline_index == '\0')
 		return (ft_strdup(buf));
 	line = malloc(sizeof(char) * (newline_index - buf + 2));
@@ -60,7 +60,7 @@ static char	*ft_update_cache(char *cache)
 	char	*line;
 	char	*newline_index;
 
-	newline_index = find_newline_index(cache);
+	newline_index = ft_find_newline_index(cache);
 	if (*newline_index == '\0')
 	{
 		free(cache);
@@ -78,7 +78,7 @@ static t_node	*find_node_with_fd(t_node *head, int fd)
 
 	node_before = head;
 	node = head->next;
-	while (node)
+	while (node && node->next)
 	{
 		if (node->fd == fd)
 			return (node);
@@ -111,16 +111,11 @@ char	*get_next_line(int fd)
 	while (node_before && node_before->next != node)
 		node_before = node_before->next;
 	node->cache = ft_read_new_line(fd, node->cache);
-	if (node->cache == NULL)
-	{
-		node_before->next = NULL;
-		free(node);
-		return (NULL);
-	}
 	line = ft_get_line_before_newline(node->cache);
-	if (line == NULL)
+	if (!line)
 	{
-		node_before->next = NULL;
+		if (node_before)
+			node_before->next = node->next;
 		free(node);
 		return (NULL);
 	}

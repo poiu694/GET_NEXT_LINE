@@ -6,13 +6,13 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:36:18 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/01 13:22:50 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/02 19:10:58 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*find_newline_index(char *buf)
+static char	*ft_find_newline_index(char *buf)
 {
 	while (*buf != '\0' && *buf != '\n')
 		buf++;
@@ -35,7 +35,7 @@ static char	*ft_read_new_line(int fd, char *cache)
 		temp = cache;
 		cache = ft_strjoin(cache, read_buf);
 		free(temp);
-		if (*find_newline_index(cache) == '\n')
+		if (*ft_find_newline_index(cache) == '\n')
 			break ;
 		read_size = read(fd, read_buf, BUFFER_SIZE);
 	}
@@ -52,7 +52,7 @@ static char	*ft_get_line_before_newline(char *buf)
 
 	if (*buf == '\0')
 		return (NULL);
-	newline_index = find_newline_index(buf);
+	newline_index = ft_find_newline_index(buf);
 	if (*newline_index == '\0')
 		return (ft_strdup(buf));
 	line = malloc(sizeof(char) * (newline_index - buf + 2));
@@ -67,7 +67,7 @@ static char	*ft_update_cache(char *cache)
 	char	*line;
 	char	*newline_index;
 
-	newline_index = find_newline_index(cache);
+	newline_index = ft_find_newline_index(cache);
 	if (*newline_index == '\0')
 	{
 		free(cache);
