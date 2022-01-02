@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:40:17 by sangmlee          #+#    #+#             */
-/*   Updated: 2021/12/29 13:28:44 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/02 21:40:45 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_and_free(char *s1, char *s2);
 
 #endif

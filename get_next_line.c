@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:36:18 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/02 19:10:58 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/02 21:37:54 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static char	*ft_find_newline_index(char *buf)
 static char	*ft_read_new_line(int fd, char *cache)
 {
 	char	*read_buf;
-	char	*temp;
 	ssize_t	read_size;
 
 	read_buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -32,9 +31,7 @@ static char	*ft_read_new_line(int fd, char *cache)
 	while (read_size > 0)
 	{
 		read_buf[read_size] = '\0';
-		temp = cache;
-		cache = ft_strjoin(cache, read_buf);
-		free(temp);
+		cache = ft_strjoin_and_free(cache, read_buf);
 		if (*ft_find_newline_index(cache) == '\n')
 			break ;
 		read_size = read(fd, read_buf, BUFFER_SIZE);
@@ -45,7 +42,7 @@ static char	*ft_read_new_line(int fd, char *cache)
 	return (cache);
 }
 
-static char	*ft_get_line_before_newline(char *buf)
+static char	*ft_get_line_with_newline(char *buf)
 {
 	char	*line;
 	char	*newline_index;
@@ -88,7 +85,7 @@ char	*get_next_line(int fd)
 	cache = ft_read_new_line(fd, cache);
 	if (cache == NULL)
 		return (NULL);
-	line = ft_get_line_before_newline(cache);
+	line = ft_get_line_with_newline(cache);
 	cache = ft_update_cache(cache);
 	return (line);
 }

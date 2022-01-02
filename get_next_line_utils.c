@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_util.c                               :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 12:50:11 by sangmlee          #+#    #+#             */
-/*   Updated: 2021/12/23 12:52:27 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/02 21:39:38 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
 	return (src_len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_and_free(char *s1, char *s2)
 {
 	size_t	len1;
 	size_t	len2;
@@ -77,5 +77,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(ret, s1, len1 + 1);
 	ft_strlcpy(ret + len1, s2, len2 + 1);
+	free(s1);
 	return (ret);
 }
