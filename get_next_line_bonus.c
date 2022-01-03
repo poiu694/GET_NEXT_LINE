@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 11:36:18 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/02 21:37:31 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/04 00:04:58 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static char	*ft_read_new_line(int fd, char *cache)
 	char	*read_buf;
 	ssize_t	read_size;
 
+	if (ft_find_newline_index(cache))
+		return (cache);
 	read_buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (read_buf == NULL)
 		return (NULL);
@@ -25,7 +27,7 @@ static char	*ft_read_new_line(int fd, char *cache)
 	{
 		read_buf[read_size] = '\0';
 		cache = ft_strjoin_and_free(cache, read_buf);
-		if (*ft_find_newline_index(cache) == '\n')
+		if (ft_find_newline_index(cache))
 			break ;
 		read_size = read(fd, read_buf, BUFFER_SIZE);
 	}
@@ -40,10 +42,10 @@ static char	*ft_get_line_with_newline(char *buf)
 	char	*line;
 	char	*newline_index;
 
-	if (!buf)
+	if (buf == NULL || *buf == '\0')
 		return (NULL);
 	newline_index = ft_find_newline_index(buf);
-	if (*newline_index == '\0')
+	if (newline_index == NULL)
 		return (ft_strdup(buf));
 	line = malloc(sizeof(char) * (newline_index - buf + 2));
 	if (line == NULL)
@@ -58,7 +60,7 @@ static char	*ft_update_cache(char *cache)
 	char	*newline_index;
 
 	newline_index = ft_find_newline_index(cache);
-	if (*newline_index == '\0')
+	if (newline_index == NULL)
 	{
 		free(cache);
 		return (NULL);
@@ -75,7 +77,7 @@ static t_node	*find_node_with_fd(t_node *head, int fd)
 
 	node_before = head;
 	node = head->next;
-	while (node && node->next)
+	while (node)
 	{
 		if (node->fd == fd)
 			return (node);
@@ -104,18 +106,18 @@ char	*get_next_line(int fd)
 	node = find_node_with_fd(&head, fd);
 	if (node == NULL)
 		return (NULL);
-	node_before = head.next;
+	node_before = &head;
 	while (node_before && node_before->next != node)
 		node_before = node_before->next;
 	node->cache = ft_read_new_line(fd, node->cache);
 	line = ft_get_line_with_newline(node->cache);
-	if (!line)
+	node->cache = ft_update_cache(node->cache);
+	if (line == NULL)
 	{
 		if (node_before)
 			node_before->next = node->next;
 		free(node);
 		return (NULL);
 	}
-	node->cache = ft_update_cache(node->cache);
 	return (line);
 }

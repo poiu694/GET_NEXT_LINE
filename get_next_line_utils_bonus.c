@@ -6,7 +6,7 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 12:50:11 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/02 21:39:56 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/03 23:20:27 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,15 @@ char	*ft_strjoin_and_free(char *s1, char *s2)
 	return (ret);
 }
 
-char	*ft_find_newline_index(char *buf)
+char	*ft_find_newline_index(char *s)
 {
-	while (*buf != '\0' && *buf != '\n')
-		buf++;
-	return (buf);
+	if (s == NULL)
+		return (NULL);
+	while (*s)
+	{
+		if (*s == '\n')
+			return (s);
+		s++;
+	}
+	return (NULL);
 }
