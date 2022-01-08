@@ -6,11 +6,11 @@
 /*   By: sangmlee <sangmlee@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 12:50:11 by sangmlee          #+#    #+#             */
-/*   Updated: 2022/01/03 23:20:27 by sangmlee         ###   ########.fr       */
+/*   Updated: 2022/01/09 01:38:44 by sangmlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
